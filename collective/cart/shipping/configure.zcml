@@ -5,4 +5,14 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <include package=".content" />
+
+  <genericsetup:registerProfile
+      name="default"
+      title="collective.cart.shipping"
+      directory="profiles/default"
+      description="Installs the collective.cart.shipping package"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
 </configure>

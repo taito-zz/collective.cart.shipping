@@ -1,0 +1,310 @@
+Initial imports and defines
+============================
+    >>> from Products.Archetypes.Schema.factory import instanceSchemaFactory
+    >>> from zope.component import provideAdapter
+    >>> provideAdapter(instanceSchemaFactory)
+
+Creating ShippingMethod
+=======================
+    >>> from collective.cart.shipping.content import ShippingMethod
+    >>> smethod = ShippingMethod('smethod')
+    >>> smethod
+     <ShippingMethod at smethod>
+    >>> smethod.portal_type
+    'ShippingMethod'
+    >>> from collective.cart.shipping.interfaces import IShippingMethod
+    >>> IShippingMethod.providedBy(smethod)
+    True
+    >>> smethod.schema
+    <Products.Archetypes.Schema.Schema object at ...>
+    >>> names = [field.getName() for field in smethod.schema.getSchemataFields('default')]
+    >>> names
+    ['id', 'title', 'description', 'from_country', 'to_country', 'base_charge', 'weight_charge', 'fuel_rate', 'insurance_base', 'insurance_rate', 'risk_rate', 'min_delivery_days', 'max_delivery_days', 'dimension_weight_ratio']
+
+Field: from_country
+-------------------
+    >>> smethod.schema['from_country']
+    <Field from_country(lines:rw)>
+    >>> smethod.schema['from_country'].required == False
+    True
+    >>> smethod.schema['from_country'].searchable == False
+    True
+    >>> smethod.schema['from_country'].languageIndependent
+    True
+    >>> smethod.schema['from_country'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['from_country'].widget
+    <Products.Archetypes.Widget.MultiSelectionWidget object at ...>
+    >>> smethod.schema['from_country'].widget.label
+    u'From Country'
+    >>> smethod.schema['from_country'].widget.description
+    u'Select countries from which this shipping method is applied.'
+    >>> smethod.schema['from_country'].widget.size
+    '15'
+    >>> smethod.schema['from_country'].vocabulary
+    'country_code_name_tuples'
+    >>> smethod.schema['from_country'].enforceVocabulary
+    True
+    >>> smethod.from_country = 'FI'
+    >>> smethod.getFrom_country()
+    ('FI',)
+    >>> smethod.from_country = ('FI', 'US')
+    >>> smethod.getFrom_country()
+    ('FI', 'US')
+
+Field: to_country
+-----------------
+    >>> smethod.schema['to_country']
+    <Field to_country(lines:rw)>
+    >>> smethod.schema['to_country'].required == False
+    True
+    >>> smethod.schema['to_country'].searchable == False
+    True
+    >>> smethod.schema['to_country'].languageIndependent
+    True
+    >>> smethod.schema['to_country'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['to_country'].widget
+    <Products.Archetypes.Widget.MultiSelectionWidget object at ...>
+    >>> smethod.schema['to_country'].widget.label
+    u'To Country'
+    >>> smethod.schema['to_country'].widget.description
+    u'Select countries to which this shipping method is applied.'
+    >>> smethod.schema['to_country'].widget.size
+    '15'
+    >>> smethod.schema['to_country'].vocabulary
+    'country_code_name_tuples'
+    >>> smethod.schema['to_country'].enforceVocabulary
+    True
+    >>> smethod.to_country = 'JP'
+    >>> smethod.getTo_country()
+    ('JP',)
+    >>> smethod.to_country = ('JP', 'US')
+    >>> smethod.getTo_country()
+    ('JP', 'US')
+
+Field: base_charge
+------------------
+    >>> smethod.schema['base_charge']
+    <Field base_charge(float:rw)>
+    >>> smethod.schema['base_charge'].required == True
+    True
+    >>> smethod.schema['base_charge'].searchable == False
+    True
+    >>> smethod.schema['base_charge'].languageIndependent
+    True
+    >>> smethod.schema['base_charge'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['base_charge'].widget
+    <Products.Archetypes.Widget.DecimalWidget object at ...>
+    >>> smethod.schema['base_charge'].widget.label
+    u'Base Shipping Charge'
+    >>> smethod.schema['base_charge'].widget.description
+    u'This is starting charge for this shipping method.'
+    >>> smethod.schema['base_charge'].default
+    0.0
+    >>> smethod.base_charge = 5.0
+    >>> smethod.getBase_charge()
+    5.0
+
+Field: weight_charge
+--------------------
+    >>> smethod.schema['weight_charge']
+    <Field weight_charge(float:rw)>
+    >>> smethod.schema['weight_charge'].required == True
+    True
+    >>> smethod.schema['weight_charge'].searchable == False
+    True
+    >>> smethod.schema['weight_charge'].languageIndependent
+    True
+    >>> smethod.schema['weight_charge'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['weight_charge'].widget
+    <Products.Archetypes.Widget.DecimalWidget object at ...>
+    >>> smethod.schema['weight_charge'].widget.label
+    u'Weight Charge'
+    >>> smethod.schema['weight_charge'].widget.description
+    u'This charge will be added every kg of weight linearly.'
+    >>> smethod.schema['weight_charge'].default
+    0.0
+    >>> smethod.weight_charge = 5.0
+    >>> smethod.getWeight_charge()
+    5.0
+
+Field: fuel_rate
+----------------
+    >>> smethod.schema['fuel_rate']
+    <Field fuel_rate(float:rw)>
+    >>> smethod.schema['fuel_rate'].required == True
+    True
+    >>> smethod.schema['fuel_rate'].searchable == False
+    True
+    >>> smethod.schema['fuel_rate'].languageIndependent
+    True
+    >>> smethod.schema['fuel_rate'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['fuel_rate'].widget
+    <Products.Archetypes.Widget.DecimalWidget object at ...>
+    >>> smethod.schema['fuel_rate'].widget.label
+    u'Fuel Rate'
+    >>> smethod.schema['fuel_rate'].widget.description
+    u'Fuel Rate usually changes every month.'
+    >>> smethod.schema['fuel_rate'].default
+    0.0
+    >>> smethod.fuel_rate = 5.0
+    >>> smethod.getFuel_rate()
+    5.0
+
+Field: insurance_base
+----------------
+    >>> smethod.schema['insurance_base']
+    <Field insurance_base(float:rw)>
+    >>> smethod.schema['insurance_base'].required == True
+    True
+    >>> smethod.schema['insurance_base'].searchable == False
+    True
+    >>> smethod.schema['insurance_base'].languageIndependent
+    True
+    >>> smethod.schema['insurance_base'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['insurance_base'].widget
+    <Products.Archetypes.Widget.DecimalWidget object at ...>
+    >>> smethod.schema['insurance_base'].widget.label
+    u'Insurance Base Charge'
+    >>> smethod.schema['insurance_base'].widget.description
+    u''
+    >>> smethod.schema['insurance_base'].default
+    0.0
+    >>> smethod.insurance_base = 5.0
+    >>> smethod.getInsurance_base()
+    5.0
+
+Field: insurance_rate
+----------------
+    >>> smethod.schema['insurance_rate']
+    <Field insurance_rate(float:rw)>
+    >>> smethod.schema['insurance_rate'].required == True
+    True
+    >>> smethod.schema['insurance_rate'].searchable == False
+    True
+    >>> smethod.schema['insurance_rate'].languageIndependent
+    True
+    >>> smethod.schema['insurance_rate'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['insurance_rate'].widget
+    <Products.Archetypes.Widget.DecimalWidget object at ...>
+    >>> smethod.schema['insurance_rate'].widget.label
+    u'Insurance Rate'
+    >>> smethod.schema['insurance_rate'].widget.description
+    u'This rate will be added to the total product price.'
+    >>> smethod.schema['insurance_rate'].default
+    0.0
+    >>> smethod.insurance_rate = 5.0
+    >>> smethod.getInsurance_rate()
+    5.0
+
+Field: risk_rate
+----------------
+    >>> smethod.schema['risk_rate']
+    <Field risk_rate(float:rw)>
+    >>> smethod.schema['risk_rate'].required == True
+    True
+    >>> smethod.schema['risk_rate'].searchable == False
+    True
+    >>> smethod.schema['risk_rate'].languageIndependent
+    True
+    >>> smethod.schema['risk_rate'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['risk_rate'].widget
+    <Products.Archetypes.Widget.DecimalWidget object at ...>
+    >>> smethod.schema['risk_rate'].widget.label
+    u'Risk Rate'
+    >>> smethod.schema['risk_rate'].widget.description
+    u''
+    >>> smethod.schema['risk_rate'].default
+    0.0
+    >>> smethod.risk_rate = 5.0
+    >>> smethod.getRisk_rate()
+    5.0
+
+Field: min_delivery_days
+----------------
+    >>> smethod.schema['min_delivery_days']
+    <Field min_delivery_days(integer:rw)>
+    >>> smethod.schema['min_delivery_days'].required == True
+    True
+    >>> smethod.schema['min_delivery_days'].searchable == False
+    True
+    >>> smethod.schema['min_delivery_days'].languageIndependent
+    True
+    >>> smethod.schema['min_delivery_days'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['min_delivery_days'].widget
+    <Products.Archetypes.Widget.IntegerWidget object at ...>
+    >>> smethod.schema['min_delivery_days'].widget.label
+    u'Minimum Delivery Days'
+    >>> smethod.schema['min_delivery_days'].widget.description
+    ''
+    >>> smethod.schema['min_delivery_days'].widget.size
+    '2'
+    >>> smethod.schema['min_delivery_days'].widget.maxlength
+    '2'
+    >>> smethod.min_delivery_days = 5
+    >>> smethod.getMin_delivery_days()
+    5
+
+Field: max_delivery_days
+----------------
+    >>> smethod.schema['max_delivery_days']
+    <Field max_delivery_days(integer:rw)>
+    >>> smethod.schema['max_delivery_days'].required == True
+    True
+    >>> smethod.schema['max_delivery_days'].searchable == False
+    True
+    >>> smethod.schema['max_delivery_days'].languageIndependent
+    True
+    >>> smethod.schema['max_delivery_days'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['max_delivery_days'].widget
+    <Products.Archetypes.Widget.IntegerWidget object at ...>
+    >>> smethod.schema['max_delivery_days'].widget.label
+    u'Maximum Delivery Days'
+    >>> smethod.schema['max_delivery_days'].widget.description
+    ''
+    >>> smethod.max_delivery_days = 5
+    >>> smethod.getMax_delivery_days()
+    5
+
+Field: dimension_weight_ratio
+----------------
+    >>> smethod.schema['dimension_weight_ratio']
+    <Field dimension_weight_ratio(float:rw)>
+    >>> smethod.schema['dimension_weight_ratio'].required == True
+    True
+    >>> smethod.schema['dimension_weight_ratio'].searchable == False
+    True
+    >>> smethod.schema['dimension_weight_ratio'].languageIndependent
+    True
+    >>> smethod.schema['dimension_weight_ratio'].storage
+    <Storage AnnotationStorage>
+    >>> smethod.schema['dimension_weight_ratio'].widget
+    <Products.Archetypes.Widget.DecimalWidget object at ...>
+    >>> smethod.schema['dimension_weight_ratio'].widget.label
+    u'Dimention Weight Ratio'
+    >>> smethod.schema['dimension_weight_ratio'].widget.description
+    u'1 m3 = ??? kg'
+    >>> smethod.schema['dimension_weight_ratio'].default
+    250.0
+    >>> smethod.dimension_weight_ratio = 5.0
+    >>> smethod.getDimension_weight_ratio()
+    5.0
+
+    >>> from zope.component import provideUtility
+    >>> from collective.cart.shipping.interfaces import ICountries
+    >>> from collective.cart.shipping.utility.country import Countries
+    >>> provideUtility(Countries(), provides=ICountries)
+    >>> len(smethod.country_code_name_tuples)
+    246
+
+#    >>> from mock import Mock
+#    >>> smethod.country_code_name_tuples = Mock()

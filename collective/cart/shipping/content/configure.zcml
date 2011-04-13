@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    i18n_domain="collective.cart.shipping">
+
+  <class class=".shipping.ShippingMethod">
+    <require
+        permission="zope2.View"
+        interface="..interfaces.IShippingMethod"
+        />
+  </class>
+
+</configure>

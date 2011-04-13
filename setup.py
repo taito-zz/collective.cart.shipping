@@ -17,9 +17,8 @@ long_description = (
 
 setup(name='collective.cart.shipping',
       version=version,
-      description="Adds Shipping Methods to cart.",
-      long_description=open("README.txt").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      description="Adds Shipping Methods to Cart.",
+      long_description=long_description,
       # Get more strings from
       # http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
@@ -37,7 +36,7 @@ setup(name='collective.cart.shipping',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
+          'pycountry',
       ],
       entry_points="""
       # -*- Entry points: -*-

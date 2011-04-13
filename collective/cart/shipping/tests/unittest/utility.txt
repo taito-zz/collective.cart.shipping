@@ -1,0 +1,21 @@
+Initial imports
+===============
+    >>> from zope.component import getUtility, provideUtility
+
+ICountries
+==========
+    >>> from collective.cart.shipping.interfaces import ICountries
+    >>> from collective.cart.shipping.utility.country import Countries
+    >>> provideUtility(Countries(), provides=ICountries)
+    >>> countries = getUtility(ICountries)()
+    >>> countries.get('FI')
+    'Finland'
+    >>> countries.get('US')
+    'United States'
+    >>> countries.get('JP')
+    'Japan'
+    >>> otl = getUtility(ICountries).ordered_tuple_list()
+    >>> len(otl)
+    246
+    >>> otl[0]
+    ('AF', 'Afghanistan')
