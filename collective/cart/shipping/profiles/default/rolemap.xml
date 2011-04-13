@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<rolemap>
+  <permissions>
+    <permission name="collective.cart.shipping: Add ShippingMethod" acquire="False">
+        <role name="Manager" />
+        <role name="Contributor" />
+    </permission>
+  </permissions>
+</rolemap>

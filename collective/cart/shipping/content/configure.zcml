@@ -6,8 +6,7 @@
   <class class=".shipping.ShippingMethod">
     <require
         permission="zope2.View"
-        interface="..interfaces.IShippingMethod"
-        />
+        interface="..interfaces.IShippingMethod" />
   </class>
 
 </configure>

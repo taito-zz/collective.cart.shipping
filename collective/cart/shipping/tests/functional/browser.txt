@@ -1,0 +1,4 @@
+Initial imports and defines.
+----
+    >>> portal_url =  portal.absolute_url()
+
