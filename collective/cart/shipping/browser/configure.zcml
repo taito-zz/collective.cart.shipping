@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="collective.cart.shipping">
+
+  <include package="plone.app.contentmenu" />
+
+  <browser:menuItem
+    for="..interfaces.IShippingMethod"
+    menu="plone_displayviews"
+    title="Shipping Method View"
+    action="@@view"
+    description="Default representation of Shipping Method"
+    />
+
+  <browser:page
+    for="collective.cart.shipping.interfaces.IShippingMethod"
+    name="view"
+    class=".template.ShippingMethodView"
+    permission="zope2.View"
+    />
+
+</configure>

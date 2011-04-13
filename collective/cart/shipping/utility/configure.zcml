@@ -1,0 +1,9 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+  <utility factory=".country.Countries" />
+  <utility
+      component=".vocabulary.CountryVocabularyFactory"
+      name="collective.cart.shipping.countries"
+      />
+
+</configure>

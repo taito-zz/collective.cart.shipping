@@ -5,15 +5,6 @@ from collective.cart.shipping import CartShippingMessageFactory as _
 
 class IShippingMethod(Interface):
 
-    title = schema.TextLine(
-        title=_(u"Title"),
-        required=True
-    )
-
-    description = schema.TextLine(
-        title=_(u"Description"),
-    )
-
     from_country = schema.Choice(
         title=_(u"Country From"),
         required=False,
@@ -85,3 +76,6 @@ class IShippingMethod(Interface):
         description=_(u"1 m3 = ??? kg"),
         required=False,
    )
+
+#    def country_code_name_tuples():
+#        """Returns tuple of tuples for country code and name."""

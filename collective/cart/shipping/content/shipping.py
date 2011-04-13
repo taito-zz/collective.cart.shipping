@@ -37,7 +37,9 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             description=_(u'Select countries from which this shipping method is applied.'),
             size='15',
         ),
-        vocabulary='country_code_name_tuples',
+#        vocabulary='country_code_name_tuples',
+        vocabulary_factory="collective.cart.shipping.countries",
+#        vocabulary=('FI','US'),
         enforceVocabulary=True,
     ),
 
@@ -52,7 +54,9 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             description=_(u'Select countries to which this shipping method is applied.'),
             size='15',
         ),
-        vocabulary='country_code_name_tuples',
+#        vocabulary='country_code_name_tuples',
+        vocabulary_factory="collective.cart.shipping.countries",
+#        vocabulary=('FI','US'),
         enforceVocabulary=True,
     ),
 
@@ -189,8 +193,9 @@ class ShippingMethod(ATCTContent):
 
     schema = ShippingMethodSchema
 
-    title = ATFieldProperty('title')
-    description = ATFieldProperty('description')
+#    title = ATFieldProperty('title')
+#    description = ATFieldProperty('description')
+
     from_country = ATFieldProperty('from_country')
     to_country = ATFieldProperty('to_country')
     base_charge = ATFieldProperty('base_charge')
@@ -203,9 +208,10 @@ class ShippingMethod(ATCTContent):
     max_delivery_days = ATFieldProperty('max_delivery_days')
     dimension_weight_ratio = ATFieldProperty('dimension_weight_ratio')
 
-    @property
-    def country_code_name_tuples(self):
-        """Returns tuple of tuples for country code and name."""
-        return getUtility(ICountries).ordered_tuple_list()
+#    @property
+#    def country_code_name_tuples(self):
+#        """Returns tuple of tuples for country code and name."""
+##        return getUtility(ICountries).ordered_tuple_list()
+#        return (('FI', 'FI'),)
 
 registerType(ShippingMethod, PROJECTNAME)
