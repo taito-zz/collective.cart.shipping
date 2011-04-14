@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+
+<!-- <index name="uid" meta_type="FieldIndex">-->
+<!--  <indexed_attr value="uid"/>-->
+<!-- </index>-->
+
+<!-- ShippingMethod -->
+ <column value="from_country"/>
+ <column value="to_country"/>
+ <column value="base_charge"/>
+ <column value="weight_charge"/>
+ <column value="fuel_rate"/>
+ <column value="insurance_base"/>
+ <column value="insurance_rate"/>
+ <column value="risk_rate"/>
+ <column value="min_delivery_days"/>
+ <column value="max_delivery_days"/>
+ <column value="dimension_weight_ratio"/>
+ 
+
+</object>

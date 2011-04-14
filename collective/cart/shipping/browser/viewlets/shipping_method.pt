@@ -1,0 +1,51 @@
+<div i18n:domain="collective.cart.shipping"
+     id="shipping-method"
+     tal:condition="view/available_shipping_method">
+  <form method="post"
+        tal:attributes="action view/current_url">
+    <table class="vertical listing">
+      <tbody>
+        <tr>
+          <th i18n:translate="">Shipping Method</th>
+          <td>
+            <div tal:replace="structure view/shipping_method" />
+<!--            <select name="shipping_method" id="shipping_method">-->
+<!--              <tal:block tal:repeat="available_method view/available_shipping_methods">-->
+<!--                <option tal:condition="python: selected_method.uid != available_method[0]"-->
+<!--                        tal:content="python:available_method[1]"-->
+<!--                        tal:attributes="value python:available_method[0]" />-->
+<!--                <option tal:condition="python: selected_method.uid == available_method[0]"-->
+<!--                        tal:content="python:available_method[1]"-->
+<!--                        tal:attributes="value python:available_method[0]"-->
+<!--                        selected="selected" />-->
+<!--              </tal:block>-->
+<!--          </select>-->
+        </td>
+        <td tal:condition="not: view/only_one_shipping_method">
+            <input class="standalone"
+                   type="submit"
+                   id="form.button.UpdateShippingMethod"
+                   value="Update"
+                   name="form.button.UpdateShippingMethod"
+                   i18n:attributes="value"/>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <table class="listing">
+      <tbody tal:define="item view/selected_shipping_method">
+        <tr>
+          <th>
+            <span tal:replace="item/title" />
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <span tal:replace="item/description" />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>
+

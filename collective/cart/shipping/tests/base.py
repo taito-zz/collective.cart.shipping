@@ -11,15 +11,18 @@ from Products.PloneTestCase.layer import onsetup
 def setup_product():
 
     fiveconfigure.debug_mode = True
-    import collective.cart
+    import collective.cart.core
+    zcml.load_config('configure.zcml', collective.cart.core)
+    import collective.cart.shipping
     zcml.load_config('configure.zcml', collective.cart.shipping)
-
     fiveconfigure.debug_mode = False
 
+    ztc.installPackage('collective.cart.core')
     ztc.installPackage('collective.cart.shipping')
 
 setup_product()
-ptc.setupPloneSite(products=['collective.cart.shipping',])
+ptc.setupPloneSite(products=['collective.cart.core', 'collective.cart.shipping',])
+#ptc.setupPloneSite(products=['collective.cart.shipping',])
 
 class TestCase(ptc.PloneTestCase):
     """We use this base class for all the tests in this package. If

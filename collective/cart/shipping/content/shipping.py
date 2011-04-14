@@ -1,5 +1,5 @@
 from zope.interface import implements
-from zope.component import getUtility
+from persistent import Persistent
 from Products.ATContentTypes.content.base import ATCTContent
 from Products.ATContentTypes.content.schemata import (
     finalizeATCTSchema,
@@ -7,10 +7,10 @@ from Products.ATContentTypes.content.schemata import (
 )
 from collective.cart.shipping.interfaces import (
     IShippingMethod,
-    ICountries,
 )
 from collective.cart.shipping import PROJECTNAME
 from collective.cart.shipping import CartShippingMessageFactory as _
+from collective.cart.shipping.interfaces import IShippingMethodAnnotations
 from Products.Archetypes.public import (
     AnnotationStorage,
     ATFieldProperty,
@@ -215,3 +215,24 @@ class ShippingMethod(ATCTContent):
 #        return (('FI', 'FI'),)
 
 registerType(ShippingMethod, PROJECTNAME)
+
+
+class ShippingMethodAnnotations(Persistent):
+
+    implements(IShippingMethodAnnotations)
+
+    def __init__(self, brain):
+        self.uid = brain.UID
+        self.title = brain.Title
+        self.description = brain.Description
+        self.from_country = brain.from_country
+        self.to_country = brain.to_country
+        self.base_charge = brain.base_charge
+        self.weight_charge = brain.weight_charge
+        self.fuel_rate = brain.fuel_rate
+        self.insurance_base = brain.insurance_base
+        self.insurance_rate = brain.insurance_rate
+        self.risk_rate = brain.risk_rate
+        self.min_delivery_days = brain.min_delivery_days
+        self.max_delivery_days = brain.max_delivery_days
+        self.dimension_weight_ratio = brain.dimension_weight_ratio

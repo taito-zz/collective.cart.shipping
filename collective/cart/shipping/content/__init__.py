@@ -1,1 +1,1 @@
-from shipping import ShippingMethod
+from shipping import ShippingMethod, ShippingMethodAnnotations

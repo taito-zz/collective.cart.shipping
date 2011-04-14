@@ -20,4 +20,11 @@
     permission="zope2.View"
     />
 
+  <browser:viewlet
+    name="collective.cart.shipping.method"
+    manager="collective.cart.core.interfaces.ICartViewletManager"
+    class=".viewlet.ShippingMethodViewlet"
+    permission="zope2.View"
+    />
+
 </configure>

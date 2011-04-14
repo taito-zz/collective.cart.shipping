@@ -1,4 +1,4 @@
-from zope.interface import Interface
+from zope.interface import Attribute, Interface
 from zope import schema
 from collective.cart.shipping import CartShippingMessageFactory as _
 
@@ -77,5 +77,17 @@ class IShippingMethod(Interface):
         required=False,
    )
 
-#    def country_code_name_tuples():
-#        """Returns tuple of tuples for country code and name."""
+
+class IShippingMethodAnnotations(Interface):
+
+    from_country = Attribute('from_country')
+    to_country = Attribute('to_country')
+    base_charge = Attribute('base_charge')
+    weight_charge = Attribute('weight_charge')
+    fuel_rate = Attribute('fuel_rate')
+    insurance_base = Attribute('insurance_base')
+    insurance_rate = Attribute('insurance_rate')
+    risk_rate = Attribute('risk_rate')
+    min_delivery_days = Attribute('min_delivery_days')
+    max_delivery_days = Attribute('max_delivery_days')
+    dimension_weight_ratio = Attribute('dimension_weight_ratio')

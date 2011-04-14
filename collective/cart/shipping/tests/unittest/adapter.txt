@@ -1,0 +1,66 @@
+Imports and Defines
+====
+    >>> from mock import Mock
+
+#    >>> from zope.annotation.interfaces import IAnnotations
+
+    >>> from zope.component import getMultiAdapter, getUtility, provideAdapter, provideUtility
+    >>> from zope.interface import alsoProvides, implements
+
+#    >>> from zope.annotation.attribute import AttributeAnnotations
+#    >>> from Products.ZCatalog.interfaces import IZCatalog
+#    >>> from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+#    >>> provideAdapter(AttributeAnnotations)
+#    >>> from Products.Archetypes.Schema.factory import instanceSchemaFactory
+#    >>> provideAdapter(instanceSchemaFactory)
+
+IShippingMethodAdapter
+====
+    >>> from collective.cart.shipping.interfaces import IShippingMethod
+    >>> smethod = Mock()
+    >>> alsoProvides(smethod, IShippingMethod)
+    >>> from collective.cart.shipping.interfaces import IShippingMethodAdapter
+    >>> from collective.cart.shipping.adapter.shipping import ShippingMethodAdapter
+    >>> provideAdapter(ShippingMethodAdapter)
+    >>> sma = IShippingMethodAdapter(smethod)
+    >>> sma
+    <collective.cart.shipping.adapter.shipping.ShippingMethodAdapter object at ...>
+    >>> smethod.base_charge = 0.0
+    >>> smethod.weight_charge = 0.0
+    >>> smethod.fuel_rate = 0.0
+    >>> smethod.insurance_base = 0.0
+    >>> smethod.insurance_rate = 0.0
+    >>> smethod.risk_rate = 0.0
+    >>> sma.shipping_cost(0, 0)
+    0.0
+    >>> smethod.base_charge = 5.0
+    >>> sma.shipping_cost(0, 0)
+    5.0
+    >>> sma.shipping_cost(10, 0)
+    5.0
+    >>> smethod.weight_charge = 0.1
+    >>> sma.shipping_cost(10, 0)
+    6.0
+    >>> smethod.fuel_rate = 50.0
+    >>> sma.shipping_cost(10, 0)
+    9.0
+    >>> smethod.risk_rate = 100.0
+    >>> sma.shipping_cost(10, 0)
+    18.0
+    >>> smethod.insurance_base = 2.0
+    >>> sma.shipping_cost(10, 0)
+    20.0
+    >>> smethod.insurance_rate = 25.0
+    >>> sma.shipping_cost(10, 0)
+    20.0
+    >>> sma.shipping_cost(10, 10)
+    22.5
+    >>> sma.shipping_cost(0, 10)
+    19.5
+
+
+IAvailableShippingMethods
+=========================
+    >>> from collective.cart.core.interfaces import IAvailableShippingMethods
+    >>> from collective.cart.shipping.adapter.portal import AvailableShippingMethods
+    >>> provideAdapter(AvailableShippingMethods)

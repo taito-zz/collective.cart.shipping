@@ -1,6 +1,9 @@
 Initial imports and defines.
 ----
     >>> portal_url =  portal.absolute_url()
+    >>> doc01 = portal.doc01
+    >>> doc01_url = doc01.absolute_url()
+    >>> cart_url = '%s/@@cart' % portal_url
 
 Setting up.
 ----
@@ -100,3 +103,87 @@ Add ShippingMethod
     True
     >>> 'value="14"' in browser.contents
     True
+    >>> browser.getLink('View').click()
+    >>> browser.getLink('Publish').click()
+
+Now log out, go to doc01 and add to cart.
+-----------------------------------------
+    >>> browser.getLink('Log out').click()
+    >>> browser.open(doc01_url)
+
+    >>> try:
+    ...     browser.getControl(name="form.button.AddToCart").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getControl(name="form.button.AddToCart").click()
+
+    >>> try:
+    ...     browser.open(cart_url)
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.open(cart_url)
+
+    >>> 'ShippingMethod01' in browser.contents
+    True
+
+Log in and add another shipping method.
+----------------------------------------
+    >>> browser.open(portal_url + '/login_form?came_from=' + portal_url)
+    >>> browser.getControl(name='__ac_name').value = portal_owner
+    >>> browser.getControl(name='__ac_password').value = default_password
+    >>> browser.getControl(name='submit').click()
+    >>> browser.open(portal_url)
+
+    >>> try:
+    ...     browser.getLink(id="shippingmethod").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getLink(id="shippingmethod").click()
+
+    >>> browser.getControl(name='title').value = "ShippingMethod02"
+    >>> browser.getControl(name='description').value = "Descripton of ShippingMethod02"
+    >>> browser.getControl(name='from_country:list').getControl(value='FI').selected = True
+    >>> browser.getControl(name='to_country:list').getControl(value='US').selected = True
+    >>> browser.getControl(name='base_charge').value = "5"
+    >>> browser.getControl(name='weight_charge').value = "10"
+    >>> browser.getControl(name='fuel_rate').value = "1"
+    >>> browser.getControl(name='insurance_base').value = "3"
+    >>> browser.getControl(name='insurance_rate').value = "0.5"
+    >>> browser.getControl(name='risk_rate').value = "10.5"
+    >>> browser.getControl(name='min_delivery_days').value = '3'
+    >>> browser.getControl(name='max_delivery_days').value = "14"
+    >>> try:
+    ...     browser.getControl('Save').click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getLink('View').click()
+
+    >>> browser.getLink('Publish').click()
+
+Log out and check cart.
+------------------------
+    >>> browser.getLink('Log out').click()
+
+    >>> browser.open(doc01_url)
+
+    >>> try:
+    ...     browser.getControl(name="form.button.AddToCart").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+    >>> try:
+    ...     browser.open(cart_url)
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)

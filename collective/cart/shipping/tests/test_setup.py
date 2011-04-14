@@ -26,6 +26,9 @@ class TestSetup(TestCase):
 #        self.sm = getSecurityManager()
 #        self.setRoles(('Manager',))
 
+    def test_is_collective_cart_core_installed(self):
+        self.failUnless(self.installer.isProductInstalled('collective.cart.core'))
+
     def test_is_collective_cart_shipping_installed(self):
         self.failUnless(self.installer.isProductInstalled('collective.cart.shipping'))
 
@@ -69,12 +72,22 @@ class TestSetup(TestCase):
     def test_not_in_navtree(self):
         self.failUnless('ShippingMethod' in self.navtree_properties.getProperty('metaTypesNotToList'))
 
-#    ## catalog.xml
+    ## catalog.xml
 #    def test_catalog_index(self):
 #        self.failUnless('uid' in self.catalog.indexes())
 
-#    def test_metadata(self):
-#        self.failUnless('quantity' in self.catalog.schema())
+    def test_metadata(self):
+        self.failUnless('from_country' in self.catalog.schema())
+        self.failUnless('to_country' in self.catalog.schema())
+        self.failUnless('base_charge' in self.catalog.schema())
+        self.failUnless('weight_charge' in self.catalog.schema())
+        self.failUnless('fuel_rate' in self.catalog.schema())
+        self.failUnless('insurance_base' in self.catalog.schema())
+        self.failUnless('insurance_rate' in self.catalog.schema())
+        self.failUnless('risk_rate' in self.catalog.schema())
+        self.failUnless('min_delivery_days' in self.catalog.schema())
+        self.failUnless('max_delivery_days' in self.catalog.schema())
+        self.failUnless('dimension_weight_ratio' in self.catalog.schema())
 
     ## worlflows.xml
     def test_cart_folder_workflow_chain(self):

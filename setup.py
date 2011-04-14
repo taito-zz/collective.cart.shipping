@@ -36,7 +36,8 @@ setup(name='collective.cart.shipping',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          'pycountry',
+#          'pycountry',
+          'collective.cart.core'
       ],
       entry_points="""
       # -*- Entry points: -*-

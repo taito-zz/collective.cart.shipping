@@ -16,6 +16,11 @@ def test_suite():
     return unittest.TestSuite([
 
         DocFileSuite(
+            'tests/unittest/adapter.txt', package='collective.cart.shipping',
+            setUp=testing.setUp, tearDown=testing.tearDown,
+            optionflags=OF),
+
+        DocFileSuite(
             'tests/unittest/content_type.txt', package='collective.cart.shipping',
             setUp=testing.setUp, tearDown=testing.tearDown,
             optionflags=OF),
