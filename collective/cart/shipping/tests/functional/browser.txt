@@ -186,4 +186,57 @@ Log out and check cart.
     ...     print portal.error_log.getLogEntries()[0]['tb_text']
     ...     import pdb; pdb.set_trace()
 
+    >>> shipping01_uid = portal.shippingmethod01.UID()
+    >>> shipping02_uid = portal.shippingmethod02.UID()
+
     >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
+
+    >>> value1 = 'value="%s" selected="selected"' % shipping01_uid
+    >>> value2 = 'value="%s" selected="selected"' % shipping02_uid
+    >>> value1 in browser.contents or value2 in browser.contents
+    True
+
+    >>> browser.getControl(name="shipping_method").value = [shipping01_uid]
+
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdateShippingMethod").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+
+#    >>> browser.getControl(name="form.button.UpdateShippingMethod").click()
+
+    >>> value1 in browser.contents
+    True
+    >>> browser.getControl(name="shipping_method").value = [shipping02_uid]
+
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdateShippingMethod").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+    >>> value2 in browser.contents
+    True
+
+    >>> browser.getControl(name="shipping_method").value = [shipping01_uid]
+
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdateShippingMethod").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+    >>> value1 in browser.contents
+    True
+
+    >>> browser.getControl(name="shipping_method").value = [shipping02_uid]
+
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdateShippingMethod").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+    >>> value2 in browser.contents
+    True
+
+    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
+

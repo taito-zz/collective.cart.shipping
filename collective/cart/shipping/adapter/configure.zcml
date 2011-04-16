@@ -3,4 +3,8 @@
     i18n_domain="collective.cart.shipping">
   <adapter factory=".portal.AvailableShippingMethods" />
   <adapter factory=".shipping.ShippingMethodAdapter" />
+  <adapter factory=".portal.UpdateShippingMethod" />
+<!--  <adapter factory=".cart.ShippingCost" />-->
+  <adapter factory=".cart.CartItself" />
+  <adapter factory=".product.CartProductAdapter" />
 </configure>

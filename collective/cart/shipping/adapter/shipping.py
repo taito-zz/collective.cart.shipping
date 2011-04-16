@@ -1,14 +1,16 @@
 from zope.component import adapts
 from zope.interface import implements
 from collective.cart.shipping.interfaces import(
-    IShippingMethod,
+#    IShippingMethod,
     IShippingMethodAdapter,
+    IShippingMethodAnnotations,
 )
 
 
 class ShippingMethodAdapter(object):
 
-    adapts(IShippingMethod)
+#    adapts(IShippingMethod)
+    adapts(IShippingMethodAnnotations)
     implements(IShippingMethodAdapter)
 
     def __init__(self, context):
