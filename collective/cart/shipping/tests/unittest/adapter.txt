@@ -1,18 +1,8 @@
 Imports and Defines
 ====
     >>> from mock import Mock
-
-#    >>> from zope.annotation.interfaces import IAnnotations
-
     >>> from zope.component import getMultiAdapter, getUtility, provideAdapter, provideUtility
     >>> from zope.interface import alsoProvides, implements
-
-#    >>> from zope.annotation.attribute import AttributeAnnotations
-#    >>> from Products.ZCatalog.interfaces import IZCatalog
-#    >>> from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
-#    >>> provideAdapter(AttributeAnnotations)
-#    >>> from Products.Archetypes.Schema.factory import instanceSchemaFactory
-#    >>> provideAdapter(instanceSchemaFactory)
 
 IShippingMethodAdapter
 ====
@@ -69,13 +59,20 @@ IAvailableShippingMethods
 ICartProductAdapter
 ==========================
     >>> from collective.cart.core.interfaces import ICartProduct, ICartProductAdapter
+    >>> from collective.cart.core.content.cart import CartProduct
     >>> from collective.cart.shipping.adapter.product import CartProductAdapter
     >>> provideAdapter(CartProductAdapter)
-    >>> context = Mock()
+
+    >>> from Products.Archetypes.Schema.factory import instanceSchemaFactory
+    >>> provideAdapter(instanceSchemaFactory)
+
+    >>> context = CartProduct('cproduct')
     >>> context.height = 0.0
     >>> context.width = 0.0
     >>> context.depth = 0.0
-    >>> alsoProvides(context, ICartProduct)
+
+#    >>> alsoProvides(context, ICartProduct)
+
     >>> paa = ICartProductAdapter(context)
     >>> paa.dimension
     >>> context.height = 100.0
