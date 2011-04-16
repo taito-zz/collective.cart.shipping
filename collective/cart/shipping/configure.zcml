@@ -7,7 +7,7 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
-  <include package=".adapter" />
+<!--  <include package=".adapter" />-->
   <include package=".browser" />
   <include package=".content" />
   <include package=".utility" />
@@ -19,5 +19,7 @@
       description="Installs the collective.cart.shipping package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+
+<!--  <adapter factory=".adapter.product.CartProductAdapter" />-->
 
 </configure>

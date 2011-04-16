@@ -16,9 +16,9 @@ Imports and Defines
 
 IShippingMethodAdapter
 ====
-    >>> from collective.cart.shipping.interfaces import IShippingMethod
+    >>> from collective.cart.shipping.interfaces import IShippingMethodAnnotations
     >>> smethod = Mock()
-    >>> alsoProvides(smethod, IShippingMethod)
+    >>> alsoProvides(smethod, IShippingMethodAnnotations)
     >>> from collective.cart.shipping.interfaces import IShippingMethodAdapter
     >>> from collective.cart.shipping.adapter.shipping import ShippingMethodAdapter
     >>> provideAdapter(ShippingMethodAdapter)
@@ -64,3 +64,43 @@ IAvailableShippingMethods
     >>> from collective.cart.core.interfaces import IAvailableShippingMethods
     >>> from collective.cart.shipping.adapter.portal import AvailableShippingMethods
     >>> provideAdapter(AvailableShippingMethods)
+
+
+ICartProductAdapter
+==========================
+    >>> from collective.cart.core.interfaces import ICartProduct, ICartProductAdapter
+    >>> from collective.cart.shipping.adapter.product import CartProductAdapter
+    >>> provideAdapter(CartProductAdapter)
+    >>> context = Mock()
+    >>> context.height = 0.0
+    >>> context.width = 0.0
+    >>> context.depth = 0.0
+    >>> alsoProvides(context, ICartProduct)
+    >>> paa = ICartProductAdapter(context)
+    >>> paa.dimension
+    >>> context.height = 100.0
+    >>> paa.dimension
+    >>> context.width = 100.0
+    >>> paa.dimension
+    >>> context.depth = 100.0
+    >>> paa.dimension
+    1.0
+    >>> context.height = 200.0
+    >>> paa.dimension
+    2.0
+    >>> context.weight = 1000.0
+    >>> paa.weight_in_kg()
+    1000.0
+    >>> context.weight_unit = 'g'
+    >>> paa.weight_in_kg()
+    1.0
+    >>> method = Mock()
+    >>> method.dimension_weight_ratio = 0
+    >>> paa.weight_in_kg(method)
+    1.0
+    >>> method.dimension_weight_ratio = 1
+    >>> paa.weight_in_kg(method)
+    2.0
+    >>> method.dimension_weight_ratio = 0.5
+    >>> paa.weight_in_kg(method)
+    1.0
