@@ -22,18 +22,6 @@ from collective.cart.shipping.interfaces import (
 )
 
 
-#class ShippingCost(object):
-
-#    adapts(ICart)
-#    implements(IShippingCost)
-
-#    def __init__(self, context):
-#        self.context = context
-
-#    def __call__(self):
-#        method = self.context.shipping_method
-#        IShippingMethodAdapter(method)
-
 class CartItself(CartItself):
 
     @property
@@ -50,5 +38,9 @@ class CartItself(CartItself):
 
     @property
     def shipping_cost(self):
-        sma = IShippingMethodAdapter(self.context.shipping_method)
-        return sma.shipping_cost(self.weight, self.subtotal)
+        method = self.context.shipping_method
+        if method is not None:
+            sma = IShippingMethodAdapter(method)
+            return sma.shipping_cost(self.weight, self.subtotal)
+        else:
+            return 0
