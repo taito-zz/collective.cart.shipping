@@ -9,8 +9,8 @@ version = read('collective', 'cart', 'shipping', 'version.txt')[:-1]
 
 long_description = (
     open("README.txt").read() + "\n" +
-    open(os.path.join("docs", "HISTORY.txt")).read() + "\n" +
     open(os.path.join("docs", "INSTALL.txt")).read() + "\n" +
+    open(os.path.join("docs", "HISTORY.txt")).read() + "\n" +
     open(os.path.join("docs", "CREDITS.txt")).read()
     )
 
@@ -26,8 +26,8 @@ setup(name='collective.cart.shipping',
         "Programming Language :: Python",
         ],
       keywords='',
-      author='',
-      author_email='',
+      author='Taito Horiuchi',
+      author_email='taito.horiuchi@gmail.com',
       url='http://svn.plone.org/svn/collective/',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
