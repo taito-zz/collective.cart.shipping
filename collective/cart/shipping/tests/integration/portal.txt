@@ -1,0 +1,66 @@
+    >>> from zope.annotation.interfaces import IAnnotations
+    >>> from Products.CMFCore.utils import getToolByName
+    >>> from collective.cart.core.interfaces import IPortal as ICorePortal
+    >>> from collective.cart.shipping.content.shipping import ShippingMethodAnnotations
+    >>> from collective.cart.shipping.interfaces import IPortal
+    >>> pportal = IPortal(portal)
+    >>> pportal
+    <collective.cart.shipping.adapter.portal.Portal object at ...>
+
+available_shipping_method
+-------------------------
+    >>> pportal.available_shipping_method
+    >>> sfolder = portal.sfolder
+    >>> sfolder.invokeFactory(
+    ...     'ShippingMethod',
+    ...     'method01',
+    ...     title="ShippingMethod01",
+    ...     base_charge=10.0,
+    ...     weight_charge=5.0,
+    ... )
+    'method01'
+    >>> pportal.available_shipping_method
+    [<Products.ZCatalog.Catalog.mybrains object at ...>]
+
+selected_shipping_method
+------------------------
+    >>> pportal.selected_shipping_method
+    >>> sdm = getToolByName(portal, 'session_data_manager')
+    >>> session = sdm.getSessionData(create=True)
+    >>> session.set('collective.cart.core.id', '1')
+    >>> cportal = ICorePortal(portal)
+    >>> cart = cportal.cart
+    >>> cart
+    <Cart at /plone/cfolder/1>
+    >>> method = pportal.available_shipping_method[0]
+    >>> IAnnotations(cart)['collective.cart.shipping.method'] = ShippingMethodAnnotations(method)
+    >>> IPortal(portal).selected_shipping_method
+    <collective.cart.shipping.content.shipping.ShippingMethodAnnotations object at ...>
+
+update_shipping_method
+----------------------
+    >>> method = pportal.available_shipping_method[0]
+    >>> uid = method.UID
+    >>> form = dict(shipping_method=uid)
+    >>> IPortal(portal).update_shipping_method(form)
+    >>> IPortal(portal).selected_shipping_method.uid == uid
+    True
+    >>> sfolder.invokeFactory(
+    ...     'ShippingMethod',
+    ...     'method02',
+    ...     title="ShippingMethod02",
+    ...     base_charge=20.0,
+    ...     weight_charge=10.0,
+    ... )
+    'method02'
+    >>> len(pportal.available_shipping_method)
+    2
+    >>> method = pportal.available_shipping_method[1]
+    >>> uid = method.UID
+    >>> form = dict(shipping_method=uid)
+    >>> IPortal(portal).update_shipping_method(form)
+    >>> IPortal(portal).selected_shipping_method.uid == uid
+    True
+
+#    >>> from collective.cart.core.interfaces import ICartContentType
+#    >>> ICartContentType.providedBy(cart)

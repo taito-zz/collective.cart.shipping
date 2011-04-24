@@ -1,0 +1,26 @@
+    >>> from zope.annotation.interfaces import IAnnotations
+    >>> from decimal import Decimal
+    >>> from collective.cart.core.interfaces import (
+    ...     ICartProduct,
+    ...     IPortal,
+    ...     IProduct,
+    ... )
+    >>> from collective.cart.shipping.interfaces import ICart
+    >>> doc00 = portal.doc00
+    >>> product00 = IProduct(doc00)
+    >>> product00.stock
+    0
+    >>> uid = doc00.UID()
+    >>> quantity = '2'
+    >>> form = dict(uid=uid, quantity=quantity)
+    >>> IPortal(doc00).add_to_cart(form)
+    >>> cart = IPortal(doc00).cart
+    >>> cart
+    <Cart at /plone/cfolder/1>
+    >>> ICart(cart).weight
+    0
+    >>> cart.totals ==  {'products_cost': Decimal('200.00'), 'shipping_cost': Decimal('10.00')}
+    True
+    >>> cart.total_cost == Decimal('210.00')
+    True
+

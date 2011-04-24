@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<object>
+  <order manager="collective.cart.core.product.manager">
+    <viewlet name="collective.cart.core.product.basic" />
+    <viewlet name="collective.cart.shipping.product" />
+  </order>
+  <order manager="collective.cart.core.totals.manager">
+    <viewlet name="collective.cart.core.totals.products" />
+    <viewlet name="collective.cart.shipping.cost" />
+    <viewlet name="collective.cart.core.total.cost" />
+  </order>
+</object>

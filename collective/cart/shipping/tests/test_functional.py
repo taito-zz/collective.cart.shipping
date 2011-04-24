@@ -2,6 +2,7 @@ try:
     import unittest2 as unittest
 except ImportError:
     import unittest
+from decimal import Decimal
 from doctest import ELLIPSIS, NORMALIZE_WHITESPACE, REPORT_ONLY_FIRST_FAILURE
 from Testing import ZopeTestCase as ztc
 from zope.annotation.interfaces import IAnnotations
@@ -39,7 +40,7 @@ class TestSetup(base.FunctionalTestCase):
         alsoProvides(doc01, IAddableToCart)
         IAnnotations(doc01)['collective.cart.core'] = ProductAnnotations()
         product01 = IProduct(doc01)
-        product01.price = 10.0
+        product01.price = Decimal('10.00')
         product01.stock = 20
         product01.unlimited_stock = False
         product01.max_addable_quantity = 30

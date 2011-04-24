@@ -8,7 +8,7 @@ from Products.Archetypes import atapi
 from Products.CMFCore import utils
 
 PROJECTNAME = 'collective.cart.shipping'
-CartShippingMessageFactory = MessageFactory(PROJECTNAME)
+ShippingMethodMessageFactory = MessageFactory(PROJECTNAME)
 
 
 def initialize(context):

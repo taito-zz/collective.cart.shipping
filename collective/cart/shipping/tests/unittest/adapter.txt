@@ -3,16 +3,17 @@ Imports and Defines
     >>> from mock import Mock
     >>> from zope.component import getMultiAdapter, getUtility, provideAdapter, provideUtility
     >>> from zope.interface import alsoProvides, implements
+    >>> from OFS.interfaces import IItem
 
-IShippingMethodAdapter
+IShippingMethod
 ====
     >>> from collective.cart.shipping.interfaces import IShippingMethodAnnotations
     >>> smethod = Mock()
     >>> alsoProvides(smethod, IShippingMethodAnnotations)
-    >>> from collective.cart.shipping.interfaces import IShippingMethodAdapter
+    >>> from collective.cart.shipping.interfaces import IShippingMethod
     >>> from collective.cart.shipping.adapter.shipping import ShippingMethodAdapter
     >>> provideAdapter(ShippingMethodAdapter)
-    >>> sma = IShippingMethodAdapter(smethod)
+    >>> sma = IShippingMethod(smethod)
     >>> sma
     <collective.cart.shipping.adapter.shipping.ShippingMethodAdapter object at ...>
     >>> smethod.base_charge = 0.0
@@ -49,55 +50,76 @@ IShippingMethodAdapter
     19.5
 
 
-IAvailableShippingMethods
-=========================
-    >>> from collective.cart.core.interfaces import IAvailableShippingMethods
-    >>> from collective.cart.shipping.adapter.portal import AvailableShippingMethods
-    >>> provideAdapter(AvailableShippingMethods)
-
-
-ICartProductAdapter
-==========================
-    >>> from collective.cart.core.interfaces import ICartProduct, ICartProductAdapter
-    >>> from collective.cart.core.content.cart import CartProduct
-    >>> from collective.cart.shipping.adapter.product import CartProductAdapter
-    >>> provideAdapter(CartProductAdapter)
-
-    >>> from Products.Archetypes.Schema.factory import instanceSchemaFactory
-    >>> provideAdapter(instanceSchemaFactory)
-
-    >>> context = CartProduct('cproduct')
-    >>> context.height = 0.0
-    >>> context.width = 0.0
-    >>> context.depth = 0.0
-
-#    >>> alsoProvides(context, ICartProduct)
-
-    >>> paa = ICartProductAdapter(context)
-    >>> paa.dimension
-    >>> context.height = 100.0
-    >>> paa.dimension
-    >>> context.width = 100.0
-    >>> paa.dimension
-    >>> context.depth = 100.0
-    >>> paa.dimension
-    1.0
-    >>> context.height = 200.0
-    >>> paa.dimension
-    2.0
-    >>> context.weight = 1000.0
-    >>> paa.weight_in_kg()
-    1000.0
-    >>> context.weight_unit = 'g'
-    >>> paa.weight_in_kg()
-    1.0
-    >>> method = Mock()
-    >>> method.dimension_weight_ratio = 0
-    >>> paa.weight_in_kg(method)
-    1.0
-    >>> method.dimension_weight_ratio = 1
-    >>> paa.weight_in_kg(method)
-    2.0
-    >>> method.dimension_weight_ratio = 0.5
-    >>> paa.weight_in_kg(method)
-    1.0
+IProduct
+====
+    >>> from zope.annotation.interfaces import IAnnotations
+    >>> from zope.annotation.attribute import AttributeAnnotations
+    >>> provideAdapter(AttributeAnnotations)
+    >>> from collective.cart.core.interfaces import IAddableToCart
+    >>> class Document(object):
+    ...     implements(IAddableToCart, IItem)
+    ...     def __init__(self, **kwargs):
+    ...         for k, v in kwargs.items(): setattr(self, k, v)
+    ...     def UID(self):
+    ...         return self.uid
+    ...     def Title(self):
+    ...         return self.title
+    ...     def absolute_url(self):
+    ...         return self.url
+    >>> doc = Document(
+    ...     id='doc01',
+    ...     uid='uid01',
+    ...     title="Document01",
+    ...     url='doc01_url',
+    ... )
+    >>> alsoProvides(doc, IAddableToCart)
+    >>> IAddableToCart.providedBy(doc)
+    True
+    >>> from collective.cart.shipping.interfaces import IProduct
+    >>> from collective.cart.shipping.adapter.product import Product
+    >>> provideAdapter(Product)
+    >>> product = IProduct(doc)
+    >>> product
+    <collective.cart.shipping.adapter.product.Product object at ...>
+    >>> product.weight_unit
+    'g'
+    >>> product.weight
+    0
+    >>> product.height
+    0
+    >>> product.width
+    0
+    >>> product.depth
+    0
+    >>> from collective.cart.shipping.content.product import ProductAnnotations
+    >>> IAnnotations(doc)['collective.cart.shipping'] = ProductAnnotations()
+    >>> cannotasions = IAnnotations(doc)['collective.cart.shipping']
+    >>> product.weight_unit
+    'g'
+    >>> product.weight_unit = 'kg'
+    >>> product.weight_unit == 'kg'
+    True
+    >>> cannotasions.weight_unit == 'kg'
+    True
+    >>> product.weight
+    0
+    >>> product.weight = 10
+    >>> product.weight
+    10
+    >>> cannotasions.weight
+    10
+    >>> product.height = 2
+    >>> product.height
+    2
+    >>> cannotasions.height
+    2
+    >>> product.width = 3
+    >>> product.width
+    3
+    >>> cannotasions.width
+    3
+    >>> product.depth = 4
+    >>> product.depth
+    4
+    >>> cannotasions.depth
+    4

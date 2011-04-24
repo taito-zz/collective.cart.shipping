@@ -106,6 +106,44 @@ Add ShippingMethod
     >>> browser.getLink('View').click()
     >>> browser.getLink('Publish').click()
 
+    >>> browser.open(doc01_url)
+
+    >>> try:
+    ...     browser.getLink('Edit Product').click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+    >>> 'value="g" selected="selected"' in browser.contents
+    True
+    >>> 'value="kg" selected="selected"' in browser.contents
+    False
+    >>> 'value="0"' in browser.contents
+    True
+    >>> browser.getControl(name="weight_unit").value = ['kg']
+    >>> browser.getControl(name="weight").value = '1.0'
+    >>> browser.getControl(name="height").value = '2.0'
+    >>> browser.getControl(name="width").value = '3.0'
+    >>> browser.getControl(name="depth").value = '4.0'
+    >>> try:
+    ...     browser.getControl(name="form.button.UpdateProductShipping").click()
+    ... except:
+    ...     print portal.error_log.getLogEntries()[0]['tb_text']
+    ...     import pdb; pdb.set_trace()
+    >>> 'value="g" selected="selected"' in browser.contents
+    False
+    >>> 'value="kg" selected="selected"' in browser.contents
+    True
+    >>> 'value="0"' in browser.contents
+    False
+    >>> 'value="1.0"' in browser.contents
+    True
+    >>> 'value="2.0"' in browser.contents
+    True
+    >>> 'value="3.0"' in browser.contents
+    True
+    >>> 'value="4.0"' in browser.contents
+    True
+
 Now log out, go to doc01 and add to cart.
 -----------------------------------------
     >>> browser.getLink('Log out').click()
@@ -185,11 +223,8 @@ Log out and check cart.
     ... except:
     ...     print portal.error_log.getLogEntries()[0]['tb_text']
     ...     import pdb; pdb.set_trace()
-
     >>> shipping01_uid = portal.shippingmethod01.UID()
     >>> shipping02_uid = portal.shippingmethod02.UID()
-
-    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
 
     >>> value1 = 'value="%s" selected="selected"' % shipping01_uid
     >>> value2 = 'value="%s" selected="selected"' % shipping02_uid
@@ -197,7 +232,6 @@ Log out and check cart.
     True
 
     >>> browser.getControl(name="shipping_method").value = [shipping01_uid]
-
     >>> try:
     ...     browser.getControl(name="form.button.UpdateShippingMethod").click()
     ... except:
@@ -227,7 +261,7 @@ Log out and check cart.
     ...     import pdb; pdb.set_trace()
     >>> value1 in browser.contents
     True
-
+    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
     >>> browser.getControl(name="shipping_method").value = [shipping02_uid]
 
     >>> try:
@@ -237,6 +271,4 @@ Log out and check cart.
     ...     import pdb; pdb.set_trace()
     >>> value2 in browser.contents
     True
-
-    >>> open('/tmp/testbrowser.html', 'w').write(browser.contents)
 

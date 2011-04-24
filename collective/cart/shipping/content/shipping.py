@@ -6,10 +6,10 @@ from Products.ATContentTypes.content.schemata import (
     ATContentTypeSchema
 )
 from collective.cart.shipping.interfaces import (
-    IShippingMethod,
+    IShippingMethodContentType,
 )
 from collective.cart.shipping import PROJECTNAME
-from collective.cart.shipping import CartShippingMessageFactory as _
+from collective.cart.shipping import ShippingMethodMessageFactory as _
 from collective.cart.shipping.interfaces import IShippingMethodAnnotations
 from Products.Archetypes.public import (
     AnnotationStorage,
@@ -37,9 +37,7 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             description=_(u'Select countries from which this shipping method is applied.'),
             size='15',
         ),
-#        vocabulary='country_code_name_tuples',
         vocabulary_factory="collective.cart.shipping.countries",
-#        vocabulary=('FI','US'),
         enforceVocabulary=True,
     ),
 
@@ -54,9 +52,7 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             description=_(u'Select countries to which this shipping method is applied.'),
             size='15',
         ),
-#        vocabulary='country_code_name_tuples',
         vocabulary_factory="collective.cart.shipping.countries",
-#        vocabulary=('FI','US'),
         enforceVocabulary=True,
     ),
 
@@ -186,15 +182,12 @@ finalizeATCTSchema(ShippingMethodSchema, folderish=False, moveDiscussion=False)
 
 class ShippingMethod(ATCTContent):
 
-    implements(IShippingMethod)
+    implements(IShippingMethodContentType)
 
     portal_type = "ShippingMethod"
     _at_rename_after_creation = True
 
     schema = ShippingMethodSchema
-
-#    title = ATFieldProperty('title')
-#    description = ATFieldProperty('description')
 
     from_country = ATFieldProperty('from_country')
     to_country = ATFieldProperty('to_country')
@@ -207,12 +200,6 @@ class ShippingMethod(ATCTContent):
     min_delivery_days = ATFieldProperty('min_delivery_days')
     max_delivery_days = ATFieldProperty('max_delivery_days')
     dimension_weight_ratio = ATFieldProperty('dimension_weight_ratio')
-
-#    @property
-#    def country_code_name_tuples(self):
-#        """Returns tuple of tuples for country code and name."""
-##        return getUtility(ICountries).ordered_tuple_list()
-#        return (('FI', 'FI'),)
 
 registerType(ShippingMethod, PROJECTNAME)
 
