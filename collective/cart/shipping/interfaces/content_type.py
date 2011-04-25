@@ -1,9 +1,9 @@
 from zope.interface import Attribute, Interface
 from zope import schema
-from collective.cart.shipping import CartShippingMessageFactory as _
+from collective.cart.shipping import ShippingMethodMessageFactory as _
 
 
-class IShippingMethod(Interface):
+class IShippingMethodContentType(Interface):
 
     from_country = schema.Choice(
         title=_(u"Country From"),
@@ -91,3 +91,12 @@ class IShippingMethodAnnotations(Interface):
     min_delivery_days = Attribute('min_delivery_days')
     max_delivery_days = Attribute('max_delivery_days')
     dimension_weight_ratio = Attribute('dimension_weight_ratio')
+
+
+class IProductAnnotations(Interface):
+
+    weight_unit = Attribute('Weight Unit')
+    weight = Attribute('Weight')
+    height = Attribute('Height')
+    width = Attribute('Width')
+    depth = Attribute('Depth')

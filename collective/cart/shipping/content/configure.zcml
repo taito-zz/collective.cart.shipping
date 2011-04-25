@@ -6,11 +6,7 @@
   <class class=".shipping.ShippingMethod">
     <require
       permission="zope2.View"
-      interface="..interfaces.IShippingMethod" />
-<!--    <require-->
-<!--      permission="zope2.View"-->
-<!--      attributes="country_code_name_tuples"-->
-<!--      />-->
+      interface="..interfaces.IShippingMethodContentType" />
   </class>
 
 </configure>

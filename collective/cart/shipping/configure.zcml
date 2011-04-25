@@ -7,9 +7,10 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
-<!--  <include package=".adapter" />-->
+  <include package=".adapter" />
   <include package=".browser" />
   <include package=".content" />
+  <include package=".subscriber" />
   <include package=".utility" />
 
   <genericsetup:registerProfile

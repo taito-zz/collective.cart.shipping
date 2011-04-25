@@ -1,0 +1,9 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <!-- Handler -->
+  <subscriber handler=".cart.set_shipping_cost" />
+
+  <subscriber handler=".content.add_shipping_info" />
+  <subscriber handler=".content.add_shipping_method" />
+
+</configure>

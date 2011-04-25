@@ -15,7 +15,7 @@ def setup_product():
     zcml.load_config('configure.zcml', collective.cart.core)
     import collective.cart.shipping
     zcml.load_config('configure.zcml', collective.cart.shipping)
-    zcml.load_config('overrides.zcml', collective.cart.shipping)
+#    zcml.load_config('overrides.zcml', collective.cart.shipping)
     fiveconfigure.debug_mode = False
 
     ztc.installPackage('collective.cart.core')

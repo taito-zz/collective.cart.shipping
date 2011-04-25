@@ -1,3 +1,5 @@
 *.pyc
 *.egg-info
-.long-description.html
+*.html
+coverage
+*.backup

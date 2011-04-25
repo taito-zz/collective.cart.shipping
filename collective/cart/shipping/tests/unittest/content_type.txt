@@ -12,8 +12,8 @@ Creating ShippingMethod
      <ShippingMethod at smethod>
     >>> smethod.portal_type
     'ShippingMethod'
-    >>> from collective.cart.shipping.interfaces import IShippingMethod
-    >>> IShippingMethod.providedBy(smethod)
+    >>> from collective.cart.shipping.interfaces import IShippingMethodContentType
+    >>> IShippingMethodContentType.providedBy(smethod)
     True
     >>> smethod.schema
     <Products.Archetypes.Schema.Schema object at ...>

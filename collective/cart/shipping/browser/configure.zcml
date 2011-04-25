@@ -6,7 +6,7 @@
   <include package="plone.app.contentmenu" />
 
   <browser:menuItem
-    for="..interfaces.IShippingMethod"
+    for="..interfaces.IShippingMethodContentType"
     menu="plone_displayviews"
     title="Shipping Method View"
     action="@@view"
@@ -14,16 +14,30 @@
     />
 
   <browser:page
-    for="collective.cart.shipping.interfaces.IShippingMethod"
+    for="collective.cart.shipping.interfaces.IShippingMethodContentType"
     name="view"
     class=".template.ShippingMethodView"
     permission="zope2.View"
     />
 
   <browser:viewlet
+    name="collective.cart.shipping.product"
+    manager="collective.cart.core.interfaces.IEditProductViewletManager"
+    class=".viewlet.EditProductViewlet"
+    permission="cmf.ModifyPortalContent"
+    />
+
+  <browser:viewlet
     name="collective.cart.shipping.method"
     manager="collective.cart.core.interfaces.ICartViewletManager"
     class=".viewlet.ShippingMethodViewlet"
+    permission="zope2.View"
+    />
+
+  <browser:viewlet
+    name="collective.cart.shipping.cost"
+    manager="collective.cart.core.interfaces.ICartTotalsViewletManager"
+    class=".viewlet.ShippingCostViewlet"
     permission="zope2.View"
     />
 
