@@ -1,4 +1,4 @@
 Introduction
 ============
 
-Shipping method plug in for collective.cart.core.
+Shipping method plug-in for collective.cart.core.
