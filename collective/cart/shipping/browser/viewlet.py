@@ -2,19 +2,15 @@ from Acquisition import aq_inner
 from zope.component import getMultiAdapter, getUtility
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.viewlets.common import ViewletBase
-#from Products.CMFCore.utils import getToolByName
+from collective.cart.core.interfaces import IPortal as ICorePortal
 from collective.cart.core.interfaces import (
     IRegularExpression,
-#    IAvailableShippingMethods,
-#    IPortalSessionCatalog,
-#    IUpdateShippingMethod,
 )
 from collective.cart.core.browser.viewlet import CartTotalsProductsViewlet
 from collective.cart.shipping import ShippingMethodMessageFactory as _
 from collective.cart.shipping.interfaces import (
     IPortal,
     IProduct,
-#    IShippingMethodContentType,
 )
 
 
@@ -142,4 +138,5 @@ class ShippingCostViewlet(CartTotalsProductsViewlet):
 
     def total(self):
         context = aq_inner(self.context)
-        return IPortal(context).cart.totals['shipping_cost']
+        price = IPortal(context).cart.totals['shipping_cost']
+        return ICorePortal(context).cart_properties.price_with_currency(price)
