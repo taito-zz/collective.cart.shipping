@@ -1,4 +1,4 @@
 Introduction
 ============
 
-Adds linear shipping methods to the collective.cart.core.
+Shipping method plug in for collective.cart.core.
