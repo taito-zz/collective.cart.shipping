@@ -1,5 +1,6 @@
 from zope.component import adapter
 from collective.cart.core.interfaces import ICart as ICoreCart
+from collective.cart.core.interfaces import IPortal as ICorePortal
 from collective.cart.core.interfaces import (
     IUpdateCart,
 )
@@ -16,6 +17,7 @@ def set_shipping_cost(event):
     weight = ICart(cart).weight
     price = float(ICoreCart(cart).subtotal)
     cost = IShippingMethod(method).shipping_cost(weight, price)
+    cost = ICorePortal(cart).decimal_price(cost)
     item = dict(shipping_cost = cost)
     cart.totals.update(item)
 

@@ -1,7 +1,8 @@
 #from Acquisition import aq_inner
 from zope.app.component.hooks import getSite
 from zope.component import adapts
-from zope.interface import implements
+from zope.interface import alsoProvides, implements
+from OFS.interfaces import IItem
 from collective.cart.core.interfaces import IPortal
 from collective.cart.shipping.interfaces import(
     IShippingMethod,
@@ -29,5 +30,8 @@ class ShippingMethodAdapter(object):
             * (100 + fuel_rate) / 100 \
             * (100 + risk_rate) / 100 + insurance_base\
             + price * (insurance_rate) / 100
-        portal = getSite()
-        return IPortal(portal).decimal_price(cost)
+#        portal = getSite()
+#        if not IItem.providedBy(portal):
+#            alsoProvides(portal, IItem)
+        return cost
+#        return IPortal(portal).decimal_price(cost)
