@@ -4,7 +4,7 @@ Installation
 If you are using zc.buildout and the plone.recipe.zope2instance
 recipe to manage your project, you can do this:
 
-* Add ``collective.cart.shipping`` to the list of eggs to install, e.g.::
+* Add ``pycountry`` and ``collective.cart.shipping`` to the list of eggs to install, e.g.::
 
     [buildout]
     ...
