@@ -1,0 +1,177 @@
+# --- PLEASE EDIT THE LINES BELOW CORRECTLY ---
+# SOME DESCRIPTIVE TITLE.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2011-09-24 20:16+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: collective.cart.shipping\n"
+
+#: ./content/shipping.py:102
+#: ./interfaces/content_type.py:46
+msgid ""
+msgstr ""
+
+#: ./content/shipping.py:168
+#: ./interfaces/content_type.py:77
+msgid "1 m3 = ??? kg"
+msgstr ""
+
+#: ./content/shipping.py:62
+#: ./interfaces/content_type.py:24
+msgid "Base Shipping Charge"
+msgstr ""
+
+#: ./interfaces/content_type.py:13
+msgid "Countries"
+msgstr ""
+
+#: ./interfaces/content_type.py:10
+msgid "Country From"
+msgstr ""
+
+#: ./interfaces/content_type.py:17
+msgid "Country To"
+msgstr ""
+
+#: ./browser/viewlet.py:76
+msgid "Depth"
+msgstr ""
+
+#: ./content/shipping.py:167
+#: ./interfaces/content_type.py:76
+msgid "Dimention Weight Ratio"
+msgstr ""
+
+#: ./content/shipping.py:31
+msgid "From Country"
+msgstr ""
+
+#: ./content/shipping.py:88
+#: ./interfaces/content_type.py:38
+msgid "Fuel Rate"
+msgstr ""
+
+#: ./content/shipping.py:87
+#: ./interfaces/content_type.py:39
+msgid "Fuel Rate usually changes every month."
+msgstr ""
+
+#: ./browser/viewlet.py:60
+msgid "Height"
+msgstr ""
+
+#: ./browser/viewlet.py:77
+msgid "Input Depth in cm unit."
+msgstr ""
+
+#: ./browser/viewlet.py:61
+msgid "Input Height in cm unit."
+msgstr ""
+
+#: ./browser/viewlet.py:53
+msgid "Input Weight."
+msgstr ""
+
+#: ./browser/viewlet.py:69
+msgid "Input Width in cm unit."
+msgstr ""
+
+#: ./content/shipping.py:101
+#: ./interfaces/content_type.py:45
+msgid "Insurance Base Charge"
+msgstr ""
+
+#: ./content/shipping.py:114
+#: ./interfaces/content_type.py:52
+msgid "Insurance Rate"
+msgstr ""
+
+#: ./content/shipping.py:154
+#: ./interfaces/content_type.py:71
+msgid "Maximum Delivery Days"
+msgstr ""
+
+#: ./content/shipping.py:141
+#: ./interfaces/content_type.py:66
+msgid "Minimum Delivery Days"
+msgstr ""
+
+#: ./content/shipping.py:129
+#: ./interfaces/content_type.py:59
+msgid "Risk Rate"
+msgstr ""
+
+#: ./browser/viewlet.py:47
+msgid "Select Weight Unit."
+msgstr ""
+
+#: ./content/shipping.py:32
+#: ./interfaces/content_type.py:12
+msgid "Select countries from which this shipping method is applied."
+msgstr ""
+
+#: ./content/shipping.py:47
+#: ./interfaces/content_type.py:19
+msgid "Select countries to which this shipping method is applied."
+msgstr ""
+
+#: ./browser/viewlet.py:148
+msgid "Shipping Cost"
+msgstr ""
+
+#: ./browser/viewlets/shipping_method.pt:9
+#: ./profiles/default/types/ShippingMethod.xml
+msgid "Shipping Method"
+msgstr ""
+
+#: ./content/shipping.py:74
+#: ./interfaces/content_type.py:32
+msgid "This charge will be added every kg of weight linearly."
+msgstr ""
+
+#: ./content/shipping.py:61
+#: ./interfaces/content_type.py:25
+msgid "This is starting charge for this shipping method."
+msgstr ""
+
+#: ./content/shipping.py:115
+#: ./interfaces/content_type.py:53
+msgid "This rate will be added to the total product price."
+msgstr ""
+
+#: ./content/shipping.py:46
+msgid "To Country"
+msgstr ""
+
+#: ./browser/viewlets/shipping_method.pt:14
+msgid "Update"
+msgstr ""
+
+#: ./browser/viewlet.py:52
+msgid "Weight"
+msgstr ""
+
+#: ./content/shipping.py:75
+#: ./interfaces/content_type.py:31
+msgid "Weight Charge"
+msgstr ""
+
+#: ./browser/viewlet.py:46
+msgid "Weight Unit"
+msgstr ""
+
+#: ./browser/viewlet.py:68
+msgid "Width"
+msgstr ""
+
