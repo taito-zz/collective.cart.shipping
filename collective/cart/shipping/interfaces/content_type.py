@@ -1,6 +1,7 @@
-from zope.interface import Attribute, Interface
+from collective.cart.shipping import _
 from zope import schema
-from collective.cart.shipping import ShippingMethodMessageFactory as _
+from zope.interface import Attribute
+from zope.interface import Interface
 
 
 class IShippingMethodContentType(Interface):

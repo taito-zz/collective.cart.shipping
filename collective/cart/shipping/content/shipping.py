@@ -1,28 +1,23 @@
-from zope.interface import implements
-from persistent import Persistent
 from Products.ATContentTypes.content.base import ATCTContent
-from Products.ATContentTypes.content.schemata import (
-    finalizeATCTSchema,
-    ATContentTypeSchema
-)
-from collective.cart.shipping.interfaces import (
-    IShippingMethodContentType,
-)
+from Products.ATContentTypes.content.schemata import ATContentTypeSchema
+from Products.ATContentTypes.content.schemata import finalizeATCTSchema
+from Products.Archetypes.public import ATFieldProperty
+from Products.Archetypes.public import AnnotationStorage
+from Products.Archetypes.public import DecimalWidget
+from Products.Archetypes.public import FloatField
+from Products.Archetypes.public import IntegerField
+from Products.Archetypes.public import IntegerWidget
+from Products.Archetypes.public import LinesField
+from Products.Archetypes.public import MultiSelectionWidget
+from Products.Archetypes.public import Schema
+from Products.Archetypes.public import registerType
 from collective.cart.shipping import PROJECTNAME
-from collective.cart.shipping import ShippingMethodMessageFactory as _
+from collective.cart.shipping import _
 from collective.cart.shipping.interfaces import IShippingMethodAnnotations
-from Products.Archetypes.public import (
-    AnnotationStorage,
-    ATFieldProperty,
-    registerType,
-    Schema,
-    FloatField,
-    IntegerField,
-    LinesField,
-    DecimalWidget,
-    IntegerWidget,
-    MultiSelectionWidget,
-)
+from collective.cart.shipping.interfaces import IShippingMethodContentType
+from persistent import Persistent
+from zope.interface import implements
+
 
 ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
 
@@ -92,7 +87,7 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             description=_(u'Fuel Rate usually changes every month.'),
             label=_(u'Fuel Rate'),
         ),
-        default = 0.0,
+        default=0.0,
     ),
 
 
@@ -106,7 +101,7 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             label=_(u'Insurance Base Charge'),
             description=_(u''),
         ),
-        default = 0.0,
+        default=0.0,
     ),
 
    FloatField(
@@ -119,7 +114,7 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             label=_(u'Insurance Rate'),
             description=_(u'This rate will be added to the total product price.'),
         ),
-        default = 0.0,
+        default=0.0,
     ),
 
 
@@ -133,7 +128,7 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             description=_(u''),
             label=_(u'Risk Rate'),
         ),
-        default = 0.0,
+        default=0.0,
     ),
 
    IntegerField(
@@ -144,8 +139,8 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
         storage=AnnotationStorage(),
         widget=IntegerWidget(
             label=_(u'Minimum Delivery Days'),
-            size = '2',
-            maxlength = '2',
+            size='2',
+            maxlength='2',
         ),
     ),
 
@@ -157,8 +152,8 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
         storage=AnnotationStorage(),
         widget=IntegerWidget(
             label=_(u'Maximum Delivery Days'),
-            size = '2',
-            maxlength = '2',
+            size='2',
+            maxlength='2',
         ),
     ),
 
@@ -172,13 +167,14 @@ ShippingMethodSchema = ATContentTypeSchema.copy() + Schema((
             label=_(u'Dimention Weight Ratio'),
             description=_(u'1 m3 = ??? kg'),
         ),
-        default = 250.0,
+        default=250.0,
     ),
 
 ),
 )
 
 finalizeATCTSchema(ShippingMethodSchema, folderish=False, moveDiscussion=False)
+
 
 class ShippingMethod(ATCTContent):
 

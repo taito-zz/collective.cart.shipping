@@ -1,13 +1,7 @@
-#from Acquisition import aq_inner
-from zope.app.component.hooks import getSite
+from collective.cart.shipping.interfaces import IShippingMethod
+from collective.cart.shipping.interfaces import IShippingMethodAnnotations
 from zope.component import adapts
-from zope.interface import alsoProvides, implements
-from OFS.interfaces import IItem
-from collective.cart.core.interfaces import IPortal
-from collective.cart.shipping.interfaces import(
-    IShippingMethod,
-    IShippingMethodAnnotations,
-)
+from zope.interface import implements
 
 
 class ShippingMethodAdapter(object):
@@ -19,7 +13,6 @@ class ShippingMethodAdapter(object):
         self.context = context
 
     def shipping_cost(self, weight, price):
-#        context = aq_inner(self.context)
         base_charge = self.context.base_charge
         weight_charge = self.context.weight_charge
         fuel_rate = self.context.fuel_rate
@@ -30,8 +23,4 @@ class ShippingMethodAdapter(object):
             * (100 + fuel_rate) / 100 \
             * (100 + risk_rate) / 100 + insurance_base\
             + price * (insurance_rate) / 100
-#        portal = getSite()
-#        if not IItem.providedBy(portal):
-#            alsoProvides(portal, IItem)
         return cost
-#        return IPortal(portal).decimal_price(cost)

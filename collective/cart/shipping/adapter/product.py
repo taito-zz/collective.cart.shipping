@@ -1,19 +1,13 @@
 from Acquisition import aq_inner
+from collective.cart.core.interfaces import IAddableToCart
+from collective.cart.core.interfaces import ICartProductContentType
+from collective.cart.shipping.content.product import ProductAnnotations
+from collective.cart.shipping.interfaces import ICartProduct
+from collective.cart.shipping.interfaces import IProduct
 from zope.annotation.interfaces import IAnnotations
 from zope.component import adapts
 from zope.interface import implements
-#from collective.cart.core.adapter.cart import CartProductAdapter
-#from collective.cart.core.content import CartProduct
-from collective.cart.core.interfaces import (
-    IAddableToCart,
-#    ICartProduct,
-    ICartProductContentType,
-)
-from collective.cart.shipping.content.product import ProductAnnotations
-from collective.cart.shipping.interfaces import (
-    ICartProduct,
-    IProduct,
-)
+
 
 class Product(object):
 

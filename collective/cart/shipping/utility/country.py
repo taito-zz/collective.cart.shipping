@@ -1,8 +1,7 @@
-from zope.interface import implements
+from collective.cart.shipping.interfaces import ICountries
 from pycountry import countries
-from collective.cart.shipping.interfaces import (
-    ICountries,
-)
+from zope.interface import implements
+
 
 class Countries(object):
 

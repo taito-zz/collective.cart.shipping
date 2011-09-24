@@ -1,79 +1,115 @@
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-#import doctest
-from doctest import (
-    ELLIPSIS,
-    NORMALIZE_WHITESPACE,
-    REPORT_ONLY_FIRST_FAILURE
-)
 from Testing import ZopeTestCase as ztc
-from Products.CMFCore.utils import getToolByName
-from collective.cart.shipping.tests import base
+from collective.cart.shipping.tests.base import INTEGRATION_TESTING
+from hexagonit.testing.browser import Browser
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
+from plone.testing import layered
+from zope.testing import renormalizing
 
-OF = ELLIPSIS | NORMALIZE_WHITESPACE | REPORT_ONLY_FIRST_FAILURE
+import doctest
+import manuel.codeblock
+import manuel.doctest
+import manuel.testing
+import re
+import transaction
+import unittest2 as unittest
 
-class TestCase(base.TestCase):
-    """Base class used for test cases
+FLAGS = doctest.NORMALIZE_WHITESPACE | doctest.ELLIPSIS | doctest.REPORT_NDIFF | doctest.REPORT_ONLY_FIRST_FAILURE
+
+CHECKER = renormalizing.RENormalizing([
+    # Normalize the generated UUID values to always compare equal.
+    (re.compile(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}'), '<UUID>'),
+])
+
+
+def setUp(self):
+    layer = self.globs['layer']
+    # Update global variables within the tests.
+    self.globs.update({
+        'portal': layer['portal'],
+        'portal_url': layer['portal'].absolute_url(),
+        'browser': Browser(layer['app']),
+    })
+    ztc.utils.setupCoreSessions(layer['app'])
+    portal = self.globs['portal']
+    browser = self.globs['browser']
+    portal_url = self.globs['portal_url']
+    browser.setBaseUrl(portal_url)
+
+    browser.handleErrors = True
+    portal.error_log._ignored_exceptions = ()
+
+    setRoles(portal, TEST_USER_ID, ['Manager'])
+
+    portal.invokeFactory(
+        'Folder',
+        'sfolder',
+        title="Shipping Method Folder",
+    )
+    portal.invokeFactory(
+        'Document',
+        'doc01',
+        title='Document01',
+        description='Description of Document01',
+    )
+    doc01 = portal.doc01
+    doc01.reindexObject()
+    portal.invokeFactory(
+        'CartFolder',
+        'cfolder',
+    )
+    cfolder = portal.cfolder
+    cfolder.invokeFactory(
+        'Cart',
+        '1',
+    )
+    cart01 = cfolder['1']
+    cart01.session_cart_id = '1'
+    cart01.reindexObject()
+
+    transaction.commit()
+
+
+def tearDown(self):
+    portal = self.globs['portal']
+    keys = ['doc01', 'cfolder', 'sfolder']
+    for key in keys:
+        del portal[key]
+    transaction.commit()
+
+
+def DocFileSuite(testfile, flags=FLAGS, setUp=setUp, tearDown=tearDown, layer=INTEGRATION_TESTING):
+    """Returns a test suite configured with a test layer.
+
+    :param testfile: Path to a doctest file.
+    :type testfile: str
+
+    :param flags: Doctest test flags.
+    :type flags: int
+
+    :param setUp: Test set up function.
+    :type setUp: callable
+
+    :param layer: Test layer
+    :type layer: object
+
+    :rtype: `manuel.testing.TestSuite`
     """
+    m = manuel.doctest.Manuel(optionflags=flags, checker=CHECKER)
+    m += manuel.codeblock.Manuel()
 
-    def afterSetUp( self ):
-        """Code that is needed is the afterSetUp of both test cases.
-        """
-        ## Set up sessioning objects
-        ztc.utils.setupCoreSessions(self.app)
-        self.setRoles(('Manager',))
-        wftool = getToolByName(self.portal, 'portal_workflow')
-        self.portal.invokeFactory(
-            'Folder',
-            'sfolder',
-            title="Shipping Method Folder",
+    return layered(
+        manuel.testing.TestSuite(
+            m,
+            testfile,
+            setUp=setUp,
+            tearDown=tearDown,
+            globs=dict(layer=layer)),
+            layer=layer
         )
-#        sfolder = self.portal.sfolder
-#        sfolder.invokeFactory(
-#            'ShippingMethod',
-#            'method01',
-#            title="ShippingMethod01",
-#            base_charge=10.0,
-#            weight_charge=5.0,
-#        )
-        self.portal.invokeFactory(
-            'Document',
-            'doc01',
-            title='Document01',
-            description='Description of Document01',
-        )
-        doc01 = self.portal.doc01
-        wftool.doActionFor(doc01, "publish")
-        doc01.reindexObject()
-        self.portal.invokeFactory(
-            'CartFolder',
-            'cfolder',
-        )
-        cfolder = self.portal.cfolder
-        cfolder.invokeFactory(
-            'Cart',
-            '1',
-        )
-        cart01 = cfolder['1']
-        cart01.session_cart_id = '1'
-        cart01.reindexObject()
+
 
 def test_suite():
-    return unittest.TestSuite(
-        [
-
-            # Integration tests for Content Types.
-            ztc.ZopeDocFileSuite(
-                'tests/integration/portal.txt',
-                package='collective.cart.shipping',
-                test_class=TestCase,
-                optionflags=OF
-            ),
-
-        ]
-    )
-
-if __name__ == '__main__':
-    unittest.main(defaultTest='test_suite')
+    return unittest.TestSuite([
+        DocFileSuite('integration/portal.txt'),
+        ])

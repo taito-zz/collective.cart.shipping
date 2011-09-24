@@ -9,13 +9,13 @@ ICountries
     >>> provideUtility(Countries(), provides=ICountries)
     >>> countries = getUtility(ICountries)()
     >>> countries.get('FI')
-    'Finland'
+    u'Finland'
     >>> countries.get('US')
-    'United States'
+    u'United States'
     >>> countries.get('JP')
-    'Japan'
+    u'Japan'
     >>> otl = getUtility(ICountries).ordered_tuple_list()
     >>> len(otl)
-    246
+    248
     >>> otl[0]
-    ('AF', 'Afghanistan')
+    (u'AF', u'Afghanistan')

@@ -1,30 +1,11 @@
 from Acquisition import aq_inner
-from zope.interface import implements
-from zope.component import adapts#, getUtility#, getMultiAdapter
-#from Products.ZCatalog.interfaces import IZCatalog
-#from Products.CMFCore.utils import getToolByName
-#from collective.cart.core.adapter.cart import CartItself
-#from collective.cart.core.content import CartProduct
 from collective.cart.core.interfaces import ICart as ICoreCart
-from collective.cart.core.interfaces import (
-#    ICart,
-    ICartContentType,
-#    ICartItself,
-#    ICartAdapter,
-#    ICartProduct,
-#    ICartProductAdapter,
-#    ICartProductOriginal,
-#    IProduct,
-#    IProductAnnotationsAdapter,
-#    ISelectRange,
-#    IShippingCost,
-)
-from collective.cart.shipping.interfaces import (
-    ICart,
-    ICartProduct,
-    IPortal,
-#    IShippingMethodAdapter,
-)
+from collective.cart.core.interfaces import ICartContentType
+from collective.cart.shipping.interfaces import ICart
+from collective.cart.shipping.interfaces import ICartProduct
+from collective.cart.shipping.interfaces import IPortal
+from zope.component import adapts
+from zope.interface import implements
 
 
 class CartAdapter(object):
@@ -44,12 +25,3 @@ class CartAdapter(object):
             ICartProduct(product).weight_in_kg(method) for product in products
         ]
         return sum(weights)
-
-#    @property
-#    def shipping_cost(self):
-#        method = self.context.shipping_method
-#        if method is not None:
-#            sma = IShippingMethodAdapter(method)
-#            return sma.shipping_cost(self.weight, self.subtotal)
-#        else:
-#            return 0

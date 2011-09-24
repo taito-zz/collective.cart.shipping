@@ -12,6 +12,7 @@
   <include package=".content" />
   <include package=".subscriber" />
   <include package=".utility" />
+  <includeDependencies package="." />
 
   <genericsetup:registerProfile
       name="default"
@@ -20,7 +21,5 @@
       description="Installs the collective.cart.shipping package"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
-
-<!--  <adapter factory=".adapter.product.CartProductAdapter" />-->
 
 </configure>

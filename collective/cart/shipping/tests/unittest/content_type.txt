@@ -6,7 +6,7 @@ Initial imports and defines
 
 Creating ShippingMethod
 =======================
-    >>> from collective.cart.shipping.content import ShippingMethod
+    >>> from collective.cart.shipping.content.shipping import ShippingMethod
     >>> smethod = ShippingMethod('smethod')
     >>> smethod
      <ShippingMethod at smethod>

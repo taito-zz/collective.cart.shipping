@@ -61,6 +61,3 @@ update_shipping_method
     >>> IPortal(portal).update_shipping_method(form)
     >>> IPortal(portal).selected_shipping_method.uid == uid
     True
-
-#    >>> from collective.cart.core.interfaces import ICartContentType
-#    >>> ICartContentType.providedBy(cart)

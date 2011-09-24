@@ -1,1 +1,0 @@
-from shipping import ShippingMethod, ShippingMethodAnnotations

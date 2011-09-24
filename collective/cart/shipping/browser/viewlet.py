@@ -1,17 +1,13 @@
 from Acquisition import aq_inner
-from zope.component import getMultiAdapter, getUtility
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from plone.app.layout.viewlets.common import ViewletBase
-from collective.cart.core.interfaces import IPortal as ICorePortal
-from collective.cart.core.interfaces import (
-    IRegularExpression,
-)
 from collective.cart.core.browser.viewlet import CartTotalsProductsViewlet
-from collective.cart.shipping import ShippingMethodMessageFactory as _
-from collective.cart.shipping.interfaces import (
-    IPortal,
-    IProduct,
-)
+from collective.cart.core.interfaces import IPortal as ICorePortal
+from collective.cart.core.interfaces import IRegularExpression
+from collective.cart.shipping import _
+from collective.cart.shipping.interfaces import IPortal
+from collective.cart.shipping.interfaces import IProduct
+from plone.app.layout.viewlets.common import ViewletBase
+from zope.component import getMultiAdapter, getUtility
 
 
 class ShippingViewletBase(ViewletBase):
@@ -42,39 +38,46 @@ class EditProductViewlet(ShippingViewletBase):
             product.weight_unit = form.get('weight_unit')
             return self.request.response.redirect(self.current_url)
 
-
     def fields(self):
         context = aq_inner(self.context)
         product = IProduct(context)
         res = []
         weight_unit = dict(
-            label = _(u'Weight Unit'),
-            description = _('Select Weight Unit.'),
-            field = self.select_weight_unit(product),
+            label=_(u'Weight Unit'),
+            description=_('Select Weight Unit.'),
+            field=self.select_weight_unit(product),
         )
         res.append(weight_unit)
         weight =dict(
-            label = _('Weight'),
-            description = _('Input Weight.'),
-            field = '<input type="text" name="weight" id="weight" value="%s" size="5" />' % product.weight,
+            label=_('Weight'),
+            description=_('Input Weight.'),
+            field='<input type="text" name="weight" id="weight" value="{0}" size="5" />'.format(
+                product.weight
+            ),
         )
         res.append(weight)
-        height =dict(
-            label = _('Height'),
-            description = _('Input Height in cm unit.'),
-            field = '<input type="text" name="height" id="height" value="%s" size="5" />' % product.height,
+        height = dict(
+            label=_('Height'),
+            description=_('Input Height in cm unit.'),
+            field='<input type="text" name="height" id="height" value="{0}" size="5" />'.format(
+                product.height
+            ),
         )
         res.append(height)
         width = dict(
-            label = _('Width'),
-            description = _('Input Width in cm unit.'),
-            field = '<input type="text" name="width" id="width" value="%s" size="5" />' % product.width,
+            label=_('Width'),
+            description=_('Input Width in cm unit.'),
+            field='<input type="text" name="width" id="width" value="{0}" size="5" />'.format(
+                product.width
+            ),
         )
         res.append(width)
         depth = dict(
-            label = _('Depth'),
-            description = _('Input Depth in cm unit.'),
-            field = '<input type="text" name="depth" id="depth" value="%s" size="5" />' % product.depth,
+            label=_('Depth'),
+            description=_('Input Depth in cm unit.'),
+            field='<input type="text" name="depth" id="depth" value="{0}" size="5" />'.format(
+                product.depth
+            ),
         )
         res.append(depth)
         return res
@@ -84,9 +87,11 @@ class EditProductViewlet(ShippingViewletBase):
         keys = ['g', 'kg']
         for key in keys:
             if product.weight_unit == key:
-                html += '<option value="%s" selected="selected">%s</option>' % (key, key)
+                html += '<option value="{0}" selected="selected">{0}</option>'.format(
+                    key
+                )
             else:
-                html += '<option value="%s">%s</option>' % (key, key)
+                html += '<option value="{0}">{0}</option>'.format(key)
         html += '</select>'
         return html
 
@@ -119,9 +124,15 @@ class ShippingMethodViewlet(ShippingViewletBase):
         html = '<select name="shipping_method" id="shipping_method">'
         for method in self.available_shipping_method:
             if selected.uid == method.UID:
-                html += '<option value="%s" selected="selected">%s</option>' % (selected.uid, selected.title)
+                html += '<option value="{0}" selected="selected">{0}</option>'.format(
+                    selected.uid,
+                    selected.title
+                )
             else:
-                html += '<option value="%s">%s</option>' % (method.UID, method.Title)
+                html += '<option value="{0}">{0}</option>'.format(
+                    method.UID,
+                    method.Title
+                )
         html += '</select>'
         return html
 
