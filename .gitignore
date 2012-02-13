@@ -1,6 +1,7 @@
-*.pyc
+*.backup
 *.egg-info
 *.html
+*.mo
+*.pyc
 coverage
-*.backup
 dist

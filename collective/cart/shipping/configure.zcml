@@ -1,10 +1,12 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five"
-    xmlns:i18n="http://namespaces.zope.org/i18n"
-    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
-    i18n_domain="collective.cart.shipping">
+  i18n_domain="collective.cart.shipping"
+  xmlns:five="http://namespaces.zope.org/five"
+  xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+  xmlns:i18n="http://namespaces.zope.org/i18n"
+  xmlns="http://namespaces.zope.org/zope"
+    >
 
+  <includeDependencies package="." />
   <five:registerPackage package="." initialize=".initialize" />
   <i18n:registerTranslations directory="locales" />
 
@@ -13,14 +15,19 @@
   <include package=".content" />
   <include package=".subscriber" />
   <include package=".utility" />
-  <includeDependencies package="." />
+
 
   <genericsetup:registerProfile
-      name="default"
-      title="collective.cart.shipping"
-      directory="profiles/default"
-      description="Installs the collective.cart.shipping package"
-      provides="Products.GenericSetup.interfaces.EXTENSION"
-      />
+    description="Installs the collective.cart.shipping package"
+    directory="profiles/default"
+    name="default"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    title="collective.cart.shipping"
+    />
+
+  <permission
+    id="collective.cart.shipping.AddShippingMethod"
+    title="collective.cart.shipping: Add ShippingMethod"
+    />
 
 </configure>
